@@ -17,8 +17,6 @@ export const canAccess = async (to, from, next) => {
     await userStore.fetchUser()
   }
 
-  debugger
-
   if (!userStore.user) {
     next({ name: 'signin' })
   } else {
