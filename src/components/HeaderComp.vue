@@ -18,7 +18,6 @@ const logOut = async () => {
 	<header v-if="user" class="flex justify-between items-center flex-row h-20 w-full">
 		<nav class="flex gap-2">
 			<RouterLink to="/">Home</RouterLink>
-			<RouterLink to="/about">About</RouterLink>
 			<RouterLink to="/new-task">New Task</RouterLink>
 		</nav>
 

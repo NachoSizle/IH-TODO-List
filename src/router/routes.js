@@ -24,10 +24,5 @@ export default [
     name: 'signin',
     component: () => import('@/views/SignInView.vue'),
     beforeEnter: [isUserLogged]
-  },
-  {
-    path: '/about',
-    name: 'about',
-    component: () => import('@/views/AboutView.vue')
   }
 ]

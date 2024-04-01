@@ -28,6 +28,14 @@ export const logIn = async (email, password) => {
   return user
 }
 
+export const logInWithProvider = async (provider) => {
+  const { error } = await supabase.auth.signInWithOAuth({ provider })
+
+  if (error) {
+    throw new Error(error.message)
+  }
+}
+
 export const logOut = async () => {
   const { error } = await supabase.auth.signOut()
 
