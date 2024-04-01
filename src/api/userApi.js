@@ -29,11 +29,16 @@ export const logIn = async (email, password) => {
 }
 
 export const logInWithProvider = async (provider) => {
-  const { error } = await supabase.auth.signInWithOAuth({ provider })
+  const {
+    data: { user },
+    error
+  } = await supabase.auth.signInWithOAuth({ provider })
 
   if (error) {
     throw new Error(error.message)
   }
+
+  return user
 }
 
 export const logOut = async () => {

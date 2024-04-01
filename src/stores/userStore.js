@@ -39,7 +39,7 @@ export const useUserStore = defineStore('user', {
 
     async function signInWithProvider(provider) {
       try {
-        await logInWithProvider(provider)
+        user.value = await logInWithProvider(provider)
       } catch (error) {
         console.error(error)
       }

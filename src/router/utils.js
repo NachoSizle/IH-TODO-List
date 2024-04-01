@@ -1,15 +1,11 @@
 import { useUserStore } from '@/stores/userStore'
 
-const _fetchUser = async () => {
+export const generalBeforeEach = async (to, from, next) => {
   const userStore = useUserStore()
 
   if (userStore.user === undefined) {
     await userStore.fetchUser()
   }
-}
-
-export const generalBeforeEach = async (to, from, next) => {
-  await _fetchUser()
 
   next()
 }
@@ -17,7 +13,11 @@ export const generalBeforeEach = async (to, from, next) => {
 export const canAccess = async (to, from, next) => {
   const userStore = useUserStore()
 
-  await _fetchUser()
+  if (userStore.user === undefined) {
+    await userStore.fetchUser()
+  }
+
+  debugger
 
   if (!userStore.user) {
     next({ name: 'signin' })
