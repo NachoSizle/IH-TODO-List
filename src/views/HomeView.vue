@@ -10,7 +10,7 @@ const {
 </script>
 
 <template>
-	<main class="w-full h-full">
+	<main class="w-full h-full flex flex-col gap-6 items-start justify-start">
 		<h1 class="text-3xl font-bold">Welcome {{ user_name }}</h1>
 
 		<RouterView />
