@@ -13,6 +13,11 @@ const _orderTasksByState = () => {
 	tasksToShow.value = tasksOrderedByState.value
 }
 
+const _handleRemoveTask = async (taskId) => {
+	await tasksStore.removeTask(taskId)
+	tasksToShow.value = tasks.value
+}
+
 onMounted(async () => {
 	await tasksStore.fetchTasks()
 	tasksToShow.value = tasks.value
@@ -71,7 +76,8 @@ onMounted(async () => {
 						<RouterLink :to="`/edit-task/${task.id}`" class="font-medium hover:underline">
 							Edit
 						</RouterLink>
-					</td>
+						<button @click="_handleRemoveTask(task.id)" class="font-medium hover:underline">Remove</button>
+					</td> 
 				</tr>
 			</tbody>
 		</table>

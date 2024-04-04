@@ -1,6 +1,6 @@
 import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
-import { createNewTask, fetchAllTasks } from '@/api/tasksApi'
+import { createNewTask, removeTaskById, updateTaskById, fetchAllTasks } from '@/api/tasksApi'
 
 import { useUserStore } from '@/stores/userStore'
 
@@ -21,6 +21,14 @@ export const useTasksStore = defineStore('tasksStore', () => {
   })
 
   // Actions
+  async function fetchTasks() {
+    try {
+      tasks.value = await fetchAllTasks()
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   async function createTask(taskTitle) {
     try {
       const {
@@ -34,9 +42,20 @@ export const useTasksStore = defineStore('tasksStore', () => {
     }
   }
 
-  async function fetchTasks() {
+  async function updateTask(taskId, task) {
     try {
-      tasks.value = await fetchAllTasks()
+      await updateTaskById(taskId, task)
+      const taskIndex = tasks.value.findIndex((task) => task.id === taskId)
+      tasks.value[taskIndex] = task
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  async function removeTask(taskId) {
+    try {
+      await removeTaskById(taskId)
+      tasks.value = tasks.value.filter((task) => task.id !== taskId)
     } catch (error) {
       console.error(error)
     }
@@ -52,8 +71,10 @@ export const useTasksStore = defineStore('tasksStore', () => {
     // Getters
     tasksOrderedByState,
     // Actions
-    createTask,
     fetchTasks,
+    createTask,
+    removeTask,
+    updateTask,
     toggleSortOrder
   }
 })

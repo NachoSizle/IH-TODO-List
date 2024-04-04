@@ -1,7 +1,12 @@
 import { supabase } from '@/api/supabase'
 
 export const fetchActualUser = async () => {
-  const { data } = await supabase.auth.getSession()
+  const { data, error } = await supabase.auth.getSession()
+
+  if (error) {
+    throw error
+  }
+
   return data?.session?.user || null
 }
 

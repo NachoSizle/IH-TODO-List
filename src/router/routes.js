@@ -5,10 +5,13 @@ export default [
     path: '/',
     name: 'home',
     component: () => import('@/views/HomeView.vue'),
+    redirect: () => {
+      return { name: 'tasks' }
+    },
     beforeEnter: [canAccess],
     children: [
       {
-        path: '',
+        path: 'tasks',
         name: 'tasks',
         component: () => import('@/views/TaskListView.vue')
       },
@@ -16,6 +19,11 @@ export default [
         path: 'new-task',
         name: 'new-task',
         component: () => import('@/views/NewTaskView.vue')
+      },
+      {
+        path: 'edit-task/:id',
+        name: 'edit-task',
+        component: () => import('@/views/EditTaskView.vue')
       }
     ]
   },

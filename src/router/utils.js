@@ -28,7 +28,7 @@ export const isUserLogged = (to, from, next) => {
   const userStore = useUserStore()
 
   if (userStore.user) {
-    next({ name: 'home' })
+    next({ name: 'tasks' })
   } else {
     next()
   }
