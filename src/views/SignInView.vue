@@ -1,32 +1,30 @@
 <script setup>
-import { ref } from 'vue'
+import { watch } from 'vue'
+import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/userStore'
 
+import SignInEmailPass from '@/components/SignInEmailPass.vue'
+import SignInSocialMethods from '@/components/SignInSocialMethods.vue'
+
+const router = useRouter()
 const userStore = useUserStore()
 
-const user = ref('')
-const password = ref('')
-
-const signIn = () => {
-	userStore.signIn(user.value, password.value)
-}
+watch(
+	() => userStore.user,
+	(value) => {
+		if (value) {
+			router.push({ name: 'home' })
+		}
+	}
+)
 </script>
 
 <template>
-	<main>
-		<h1>Sign In View!</h1>
-		<label>
-			User:
-			<input type="text" v-model="user" />
-		</label>
-		<label>
-			Password:
-			<input type="password" v-model="password" />
-		</label>
-
-		<button @click="signIn">Sign In</button>
-	</main>
+	<h1>Sign In View!</h1>
+	<section class="flex flex-col justify-center items-center gap-4 w-full h-full">
+		<SignInEmailPass />
+		<SignInSocialMethods />
+	</section>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>

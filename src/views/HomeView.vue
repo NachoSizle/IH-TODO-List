@@ -1,11 +1,7 @@
-<script setup>
-</script>
-
 <template>
-	<main>
-		<h1>Home View!</h1>
+	<main class="w-full h-full flex flex-col gap-6 items-start justify-start">
+		<RouterView />
 	</main>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>

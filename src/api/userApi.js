@@ -1,7 +1,12 @@
 import { supabase } from '@/api/supabase'
 
 export const fetchActualUser = async () => {
-  const { data } = await supabase.auth.getSession()
+  const { data, error } = await supabase.auth.getSession()
+
+  if (error) {
+    throw error
+  }
+
   return data?.session?.user || null
 }
 
@@ -26,4 +31,25 @@ export const logIn = async (email, password) => {
   }
 
   return user
+}
+
+export const logInWithProvider = async (provider) => {
+  const {
+    data: { user },
+    error
+  } = await supabase.auth.signInWithOAuth({ provider })
+
+  if (error) {
+    throw new Error(error.message)
+  }
+
+  return user
+}
+
+export const logOut = async () => {
+  const { error } = await supabase.auth.signOut()
+
+  if (error) {
+    throw new Error(error.message)
+  }
 }
