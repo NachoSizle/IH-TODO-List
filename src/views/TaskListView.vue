@@ -1,7 +1,17 @@
 <script setup>
-import { useTasksStore } from '@/stores/tasksStore'
-import { storeToRefs } from 'pinia'
 import { onMounted, ref } from 'vue'
+import { storeToRefs } from 'pinia'
+
+import { useAppStore } from '@/stores/appStore'
+import { useUserStore } from '@/stores/userStore'
+import { useTasksStore } from '@/stores/tasksStore'
+
+const appStore = useAppStore()
+const userStore = useUserStore()
+const { user } = storeToRefs(userStore)
+const {
+	user_metadata: { user_name }
+} = user.value
 
 const tasksStore = useTasksStore()
 const { tasks, tasksOrderedByState } = storeToRefs(tasksStore)
@@ -11,6 +21,12 @@ const tasksToShow = ref([])
 const _orderTasksByState = () => {
 	tasksStore.toggleSortOrder()
 	tasksToShow.value = tasksOrderedByState.value
+}
+
+const _handleCreateTask = () => {
+	appStore.openModal({
+		component: 'NewTaskForm'
+	})
 }
 
 const _handleRemoveTask = async (taskId) => {
@@ -25,6 +41,7 @@ onMounted(async () => {
 </script>
 
 <template>
+	<h1 class="text-3xl font-bold">Welcome {{ user_name }}</h1>
 	<section class="relative overflow-x-auto w-full">
 		<table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 rounded">
 			<thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -32,8 +49,11 @@ onMounted(async () => {
 					<th scope="col" class="px-6 py-3">ID</th>
 					<th scope="col" class="px-6 py-3">Title</th>
 					<th scope="col" class="px-6 py-3 flex items-center">
-						Completed
-						<button class="green font-medium hover:underline" @click="_orderTasksByState">
+						<button
+							class="green font-medium uppercase flex items-center"
+							@click="_orderTasksByState"
+						>
+							<span>Completed</span>
 							<svg
 								class="w-3 h-3"
 								aria-hidden="true"
@@ -76,10 +96,27 @@ onMounted(async () => {
 						<RouterLink :to="`/edit-task/${task.id}`" class="font-medium hover:underline">
 							Edit
 						</RouterLink>
-						<button @click="_handleRemoveTask(task.id)" class="font-medium hover:underline">Remove</button>
-					</td> 
+						<button @click="_handleRemoveTask(task.id)" class="font-medium hover:underline">
+							Remove
+						</button>
+					</td>
 				</tr>
 			</tbody>
+			<tfoot class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+				<tr class="font-semibold text-gray-900 dark:text-white">
+					<td></td>
+					<td></td>
+					<td></td>
+					<td class="px-6 py-3 flex items-center justify-end">
+						<button
+							class="rounded border border-1 p-2 py-0 w-full h-8 uppercase border-green-300 transition-all hover:bg-green-300 hover:text-black"
+							@click="_handleCreateTask"
+						>
+							Create Task
+						</button>
+					</td>
+				</tr>
+			</tfoot>
 		</table>
 	</section>
 </template>
