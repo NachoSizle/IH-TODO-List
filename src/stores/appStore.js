@@ -4,7 +4,10 @@ import { defineStore } from 'pinia'
 export const useAppStore = defineStore('appStore', {
   state: () => {
     // State
-    const actualModal = ref(null)
+    const actualModal = ref({
+      component: null,
+      show: false
+    })
     const showLoading = ref(false)
 
     // Getters

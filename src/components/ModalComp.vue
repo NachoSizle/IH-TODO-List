@@ -31,7 +31,7 @@ watch(_componentName, (componentName) => {
 	<component :is="_componentToRender" v-if="_componentToRender" />
 
 	<div
-		v-if="actualModal.show"
+		v-else-if="actualModal.show"
 		class="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
 	>
 		<div class="relative p-4 w-full max-w-md max-h-full">
